@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%include cdn.ejs%>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+</head>
+<style>
+    .uploadfood {
+        background-color: lightgrey;
+        border: 2px solid black;
+        margin-top: 10%;
+        border-radius: 5px;
+    }
+</style>
+
+<body>
+    <div class="container">
+
+        <%if(locals.success){%>
+            <p class="alert alert-success">success</p>
+            <%}%>
+    </div>
+    <div class="container uploadfood">
+        <h1 style="text-align: center;">Upload Form</h1><br>
+        <form action="/uploadfood/upload" method="post" class="form-group uploadform" enctype="multipart/form-data">
+            <label for="">Food name</label>
+            <input type="text" name="foodname" id="foodname" class="form-control"><br>
+            <label for="">Food price</label>
+            <input type="text" name="foodprice" id="foodprice" class="form-control"><br>
+            <label for="">Food type</label>
+            <select name="foodtype" id="foodtype" class="form-control">
+                <option value="dessert">dessert</option>
+                <option value="savory">savory</option>
+                <option value="drink">drink</option>
+            </select><br>
+            <label for="">Image</label>
+            <input type="file" name="foodimg" id="foodimg" class="form-control"><br>
+            <label for="">Food recipes</label>
+            <input type="file" name="foodrecipes" id="foodrecipes" class="form-control"><br>
+            <button type="button" class="btn-upload btn btn-block btn-success">uploaded</button>
+        </form><br>
+    </div> <br>
+    <div class="container">
+        <a href="/" class="btn btn-block btn-danger">Back</a>
+
+    </div>
+
+    <script>
+        $(document).ready(() => {
+            $(".btn-upload").click(() => {
+                swal({
+                    title: "success",
+                    text: "upload successfully",
+                    icon: "success"
+                })
+                setTimeout(uploaded, 1500)
+
+            })
+
+            function uploaded() {
+
+                $(".uploadform").submit();
+            }
+        })
+    </script>
+</body>
+
+</html>

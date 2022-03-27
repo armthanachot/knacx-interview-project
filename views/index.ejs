@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%include cdn.ejs%>
+        <link rel="stylesheet" href="./styles/keyframe.css">
+        <title>
+            <%if(locals.title){%>
+                <%= title %>
+                    <%}%>
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel='stylesheet' href='/stylesheets/style.css' />
+        <style>
+            li :hover {
+                background-color: black;
+                color: white !important;
+            }
+            
+            .row>.card {
+                margin: 10px;
+                text-align: center;
+                width: 50%;
+                height: 50%;
+                border: 1px solid black;
+                /* margin-top: 10%; */
+                /* display: block; */
+            }
+            
+            .nav {
+                border: 2px solid black;
+            }
+            
+            .img-container {
+                width: 25%;
+                height: 25%;
+                margin: auto;
+                margin-top: 10px;
+                text-align: center;
+            }
+            
+            body,
+            html {
+                height: 100%;
+                width: 100%;
+                margin: 0;
+            }
+            
+            .bg {
+                background-image: url('./images/bamboo-bamboo-whisk-board-bowls-461428.jpg');
+                /* Full height */
+                height: 100%;
+                /* Center and scale the image nicely */
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+            
+            footer {
+                color: white;
+            }
+            
+            .card:hover {
+                background-color: grey;
+                color: white;
+                cursor: pointer;
+            }
+            
+            .card {
+                box-shadow: 4px 4px black;
+            }
+            
+            .menulist {
+                margin-right: -170px;
+            }
+            
+            .styletitle {
+                background-color: white;
+                margin-top: 3%;
+                margin-bottom: 3%;
+                padding: 10px;
+                width: 50%;
+                border: 2px solid black;
+            }
+            
+            .card-text {
+                font-size: 0.5cm
+            }
+            
+            @media screen and (min-width:600px) and (max-width: 1200px) {
+                .img-container {
+                    width: 12.5%;
+                    height: 12.5%;
+                    margin: auto;
+                    margin-top: 10px;
+                    text-align: center;
+                }
+                .card-text {
+                    font-size: 0.5cm;
+                }
+                .menulist {
+                    margin-right: -170px;
+                }
+            }
+            
+            @media screen and (min-width:200px) and (max-width: 600px) {
+                .img-container {
+                    width: 10%;
+                    height: 10%;
+                    margin: auto;
+                    margin-top: 10px;
+                    text-align: center;
+                }
+                .card-text {
+                    font-size: 0.5cm;
+                }
+                footer {
+                    display: none;
+                }
+                .bg {
+                    height: 100%;
+                }
+            }
+            
+            .divtest {
+                width: 100px;
+                height: 100px;
+                background-color: red;
+                animation-name: example;
+                animation-duration: 4s;
+            }
+        </style>
+</head>
+
+<body class="container-fluid">
+    <div class="bg">
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">
+                <img src="./images/japan.png" alt="" height="50" width="40">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+            <div class="collapse navbar-collapse mr-md-3" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Pricing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="#">Disabled</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- <div class="float-right" style="margin: 10px;">
+            <p style="background-color: white;">Hello world</p>
+        </div> -->
+        <div class="container float-right menulist">
+
+            <button class="styletitle element-animation" id="" data-toggle="modal" data-target="#exampleModalCenter">Menu <%if(session.tableNum){%>
+                <p >Table Number :
+                    <%=session.tableNum%>
+                </p>
+
+                <%}%>                <input type="hidden" name="tblnm" id="tblnm"  value="<%=session.tableNum%>">
+            </button>
+
+            <div class="row w-100">
+                <div id="card1" class="card  col-md-3" style="width: 18rem;">
+
+                    <span class="img-container"> <img src="../images/origini.png" class="card-img-top" alt="...">
+          </span>
+                    <div class="card-body">
+                        <h1 class="card-text">Food
+                        </h1>
+                    </div>
+                </div>
+
+                <div id="card2" class="card  col-md-3" style="width: 18rem;">
+
+                    <span class="img-container"> <img src="../images/sake.png" class="card-img-top" alt="...">
+          </span>
+                    <div class="card-body">
+                        <h1 class="card-text">Drink</h1>
+                    </div>
+                </div>
+
+                <div id="card3" class="card  col-md-3" style="width: 18rem;">
+
+                    <span class="img-container"> <img src="../images/mochi.png" class="card-img-top" alt="...">
+
+          </span>
+                    <div class="card-body">
+                        <h1 class="card-text">Dessert
+                        </h1>
+                    </div>
+                </div>
+
+                <div id="card4" class="card  col-md-3" style="width: 18rem;">
+
+                    <span class="img-container"> <img src="../images/waiter.png" class="card-img-top" alt="...">
+
+        </span>
+                    <div class="card-body">
+                        <h1 class="card-text">Waiter
+                        </h1>
+                    </div>
+                </div>
+
+                <div id="card5" class="card  col-md-3" style="width: 18rem;">
+
+                    <span class="img-container"> <img src="../images/invoice.png" class="card-img-top" alt="...">
+
+      </span>
+                    <div class="card-body">
+                        <h1 class="card-text">CheckBill
+                        </h1>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header  bg-warning">
+                    <h5 class="modal-title
+                    " id="exampleModalLongTitle">Table Number</h5>
+                    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
+                    <!-- <span aria-hidden="true">&times;</span> -->
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label for="">Table Number</label>
+                    <input type="text" name="table" id="table" class="form-control" placeholder="please fill table number" required>
+                    <p id="error" style="color:red; text-align: center; font-weight: bold;"></p>
+                </div>
+                <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button> -->
+                    <button type="button" id="next" class="btn btn-success">Confirm</button>
+                    <!-- data-dismiss="modal" คือการปิด modal -->
+                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="page-footer font-small bg-dark pt-4">
+
+        <!-- Footer Links -->
+        <div class="container-fluid text-center textleft footer">
+
+            <!-- Grid row -->
+            <div class="row">
+
+                <!-- Grid column -->
+                <div class="col6 mt0 mt-3">
+
+                    <!-- Content -->
+                    <h5 class="text-uppercase">Footer Content</h5>
+                    <p>Here you can use rows and columns to organize your footer content.</p>
+
+                </div>
+                <!-- Grid column -->
+
+                <hr class="clearfix w-100 dnone pb-3">
+
+                <!-- Grid column -->
+                <div class="col3 mb0 mb-3">
+
+                    <!-- Links -->
+                    <h5 class="text-uppercase">Links</h5>
+
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="#!">Link 1</a>
+                        </li>
+                        <li>
+                            <a href="#!">Link 2</a>
+                        </li>
+                        <li>
+                            <a href="#!">Link 3</a>
+                        </li>
+                        <li>
+                            <a href="#!">Link 4</a>
+                        </li>
+                    </ul>
+
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col3 mb0 mb-3">
+
+                    <!-- Links -->
+                    <h5 class="text-uppercase">Links</h5>
+
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="#!">Link 1</a>
+                        </li>
+                        <li>
+                            <a href="#!">Link 2</a>
+                        </li>
+                        <li>
+                            <a href="#!">Link 3</a>
+                        </li>
+                        <li>
+                            <a href="#!">Link 4</a>
+                        </li>
+                    </ul>
+
+                </div>
+                <!-- Grid column -->
+
+            </div>
+            <!-- Grid row -->
+
+        </div>
+        <!-- Footer Links -->
+
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">© 2020 Copyright:
+            <a href="https://mdbootstrap.com/"> MDBootstrap.com</a>
+        </div>
+        <!-- Copyright -->
+
+    </footer>
+    <!-- Footer -->
+    </div>
+    <script>
+        var type = {
+            savory: "savory",
+            drink: "drink",
+            dessert: "dessert"
+
+        };
+        var tblnm = document.getElementById("tblnm").value;
+        console.log("tblnm :" +
+            tblnm)
+        if (tblnm == "") {
+            // table
+            $(".styletitle").trigger("click"); //auto click
+
+        }
+
+        $(document).ready(() => {
+            $(".footer").hide();
+
+            $(".card").fadeOut()
+            $(".card").slideDown()
+            $("#card1").click(() => {
+                window.location.href = "/foods/" + type.savory;
+            })
+            $("#card2").click(() => {
+                window.location.href = "/foods/" + type.drink;
+            })
+            $("#card3").click(() => {
+                window.location.href = "/foods/" + type.dessert;
+            })
+            $("#card4").click(() => {
+                window.location.href = "/callserve";
+
+            })
+            $("#card5").click(() => {
+
+                window.location.href = "/checkbill/" + tblnm
+
+
+            })
+
+            $("#next").click(() => {
+                var table = document.getElementById("table").value;
+                if (table == "") {
+                    $("#error").append("<br>Please fill table number")
+                } else {
+                    const tableNumber = document.getElementById("table").value;
+
+                    window.location.href = "/inputTbl/" + tableNumber
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>

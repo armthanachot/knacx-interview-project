@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%include cdn.ejs%>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta chaset="UTF-8">
+        <title>Document</title>
+        <style>
+            .label {
+                background-color: rgb(106, 241, 106);
+                padding: 10px;
+                border: 2px solid black;
+                box-shadow: 4px 4px black;
+                text-align: center;
+                font-weight: bold;
+            }
+            
+            .form-report {
+                background-color: rgb(255, 153, 0);
+                padding: 2rem;
+                border: 2px solid black;
+                box-shadow: 10px 10px grey;
+                border-radius: 5px;
+            }
+            
+            label {
+                background-color: #fff;
+                padding: 3px;
+                border: 2px solid black;
+                border-radius: 3px;
+                box-shadow: 3px 3px black;
+            }
+            
+            .titleform {
+                margin: 20px;
+                color: rgb(60, 63, 245);
+                text-decoration: underline;
+                text-shadow: 1px 1px black;
+            }
+            
+            body {
+                background-color: rgb(250, 218, 159);
+            }
+        </style>
+</head>
+
+<body>
+    <div class="container callwaiterform">
+        <div class="container">
+            <div class="row">
+                <img height="200" src="../images/waiter.png" alt="...">
+                <h1 class="titleform
+                ">Call waiter</h1><br>
+
+            </div>
+        </div>
+        <br><br>
+        <div class="form-report">
+            <form action="/callWaiter" id="formCall" method="POST" class="form-group">
+                <p class="label">Please report the problem here
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-warning" style="height: 1cm; margin: 20px;" data-toggle="modal" data-target="#exampleModalCenter">
+               <b> How to use form</b>
+              </button></p><br>
+                <div class="table">
+                    <label for="">Table</label>
+                    <input autofocus placeholder="table" type="text" name="Table" id="Table" maxlength="2" class="form-control" style="width: 10%;" required readonly value="<%=session.tableNum%>"> <br>
+                </div>
+                <label for="">Message</label>
+                <input placeholder="report" type="text" name="Message" id="Message" class="form-control"><br>
+                <label for="">Short one problem</label><br>
+                <select name="shortProblem" id="shortProblem" class="form-control">
+                    <option value="" selected disabled>select</option>
+                    <option value="clean the desk">clean the desk</option>
+                    <option value="wrong foods served">wrong foods served</option>
+                    <option value="fill  water">fill  water</option>
+                    <option value="fill soup">fill soup</option>
+                    <option value="another">another</option>
+                </select>
+                <br><br><button type="button" id="call" onclick="callserve()" class="btn btn-block btn-success "><b> send</b></button>
+                <br> <br>
+                <a href="/" class="btn btn-danger">BACK</a>
+            </form>
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header  bg-warning">
+                        <h5 class="modal-title
+                        " id="exampleModalLongTitle">How to use</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+                    </div>
+                    <div class="modal-body">
+                        <ul>
+
+                            <li>กรุณากรอกเลขโต๊ะที่ลูกค้านั่ง</li>
+                            <li>กรุณากรอกปัญหาที่ท่านพบในฟอร์ม Message </li>
+                            <li>หากมีปัญหาเพียงอย่างเดียว ท่านสามารถเลือกปัญหาที่พบได้ที่ Short one problem</li>
+                            <li>หากมีปัญหาอื่นๆที่พบ หรือต้องการใช้บริการพนักงานเสิร์ฟในบริการอื่นๆ สามารถเลือก "another" ใน Short one problem</li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function callserve() {
+            var table = document.getElementById("Table").value;
+            console.log("Table : " +
+                table)
+            if (table == "") {
+                swal({
+                    icon: "warning",
+                    text: "Please fill  table number"
+                });
+
+            } else {
+                swal({
+                    icon: "success",
+                    text: "The waiter coming to see you"
+                });
+
+                setTimeout(submitcall, 500);
+
+            }
+
+        }
+
+        function submitcall() {
+            $(document).ready(() => {
+                $("#formCall").submit();
+            });
+        }
+        $(document).ready(() => {
+
+            $(".callwaiterform").fadeOut()
+
+            $(".callwaiterform").slideDown(500)
+
+        })
+    </script>
+</body>
+
+</html>

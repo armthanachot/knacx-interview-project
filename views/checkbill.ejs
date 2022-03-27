@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%include cdn.ejs%>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            .scan {
+                font-size: 1cm;
+            }
+            
+            .qrcenter {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .foodOrders {
+                background-color: rgb(53, 134, 255);
+                padding: 1rem;
+                font-size: 0.5cm;
+                border: 2px solid black;
+                border-radius: 5px;
+                box-shadow: 4px 4px black;
+            }
+            
+            .btn-danger {
+                border: 2px solid black;
+                box-shadow: 4px 4px black;
+                color: black;
+                font-weight: bold;
+            }
+            
+            .foodList {
+                background-color: rgb(157, 86, 224);
+                padding: 1rem;
+                border: 2px solid black;
+                box-shadow: 4px 4px black;
+                color: white;
+            }
+            
+            .total {
+                background-color: #fff;
+                color: black;
+                padding: 10px;
+                border: 2px solid black;
+                box-shadow: 4px 4px black;
+            }
+            
+            .btn-qr {
+                background-color: rgb(2, 206, 94);
+            }
+            
+            .btn-qr,
+            .btn-checkbill {
+                border: 2px solid black;
+                box-shadow: 4px 4px black;
+                font-weight: bold;
+            }
+        </style>
+</head>
+
+<html>
+
+<body>
+    <%if(!session.tableNum){%>
+        <script>
+            alert("please fill table number");
+            window.location.href = "/";
+        </script>
+        <%}%>
+            <div id="mobile" class="container">
+                <input type="file" id="cam" accept="image/*" capture="camera" />
+            </div>
+            <p id="ismobile"></p>
+
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="qrcode">
+                        <div class="modal-content">
+                            <div class="modal-header  bg-warning">
+                                <h5 class="modal-title
+                    " id="exampleModalLongTitle">QRCode</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+                            </div>
+                            <div class="modal-body">
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?data=<%=locals.url%>&amp;size=200x200" alt="" title="" class="qrcenter" />
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cash">
+                        <div class="modal-content">
+                            <div class="modal-header  bg-warning">
+                                <h5 class="modal-title
+                    " id="exampleModalLongTitle">Cash</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/checkBill/" method="POST" id="calculate" class="form-group">
+                                    <label for="">Table Number</label>
+                                    <input type="text" name="TableNum" id="tableNum" class="form-control" value="<%=session.tableNum%>" readonly>
+                                    <label for="">Total</label>
+                                    <input type="text" name="Total" id="total" class=form-control readonly>
+                                    <label for=" ">Cash</label>
+                                    <input type="text " name="Money" id="money" class=form-control>
+                                    <p id="change"></p>
+                                    <p id="falsepay"></p>
+                                    <button type="button" id="pay" class="btn btn-block btn-success">Pay</button>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container foodList ">
+                <h3>Order List</h3>
+                <%var totalPrice = 0%>
+                    <%for(var i in infofood){%>
+                        <li class="foodOrders ">
+                            <%=infofood[i].ordersName%> :
+                                <b>
+                    <%=infofood[i].totalPrice%> Bath </b>
+                                <%totalPrice += Number(infofood[i].totalPrice)%>
+                        </li><br>
+                        <%}%>
+                            <input type="hidden" name="totalprice" id="totalprice" value="<%=totalPrice%>">
+                            <span class="total "><b> Total :
+                        <%=totalPrice%> Bath
+                    </b></span><br><br>
+                            <button class="btn btn-block btn-qr" data-toggle="modal" data-target="#exampleModalCenter">open QRCode</button>
+                            <button class="btn btn-block btn-warning btn-cash btn-checkbill" data-toggle="modal" data-target="#exampleModalCenter">ชำระเงิน</button>
+
+                            <a href="/ " class="btn btn-block btn-danger ">Back</a><br>
+
+            </div>
+
+</html>
+
+<script>
+    $(document).ready(function() {
+        $("#mobile ").hide();
+        $("#pc").hide();
+        if (window.matchMedia("(max-width:600px) ").matches) {
+            // The viewport is less than 768 pixels wide
+            // alert("This is a mobile device. ");
+            $("#ismobile ").append("<li>" + "ismobile" + "</li>");
+            $("#mobile").show();
+            $("#cam").click();
+        } else {
+            $("#pc").show();
+            $(".btn-qr").click(() => {
+                $(".cash").hide();
+
+                $(".qrcode").show();
+            });
+            $(".btn-cash").click(() => {
+                $(".qrcode").hide();
+                $(".cash").show();
+                const totalPrice = document.getElementById("totalprice").value;
+                document.getElementById("total").value = totalPrice;
+                $("#pay").click(() => {
+                    const money = document.getElementById("money").value;
+                    console.log("total :" + totalPrice)
+                    console.log("money :" + money)
+                    const change = money - totalPrice;
+                    if (Number(money) < Number(totalPrice)) {
+                        $("#falsepay").append("<br><b style='color:red'>ขออภัย ยอดเงินของท่านไม่เพียงพอ</b>");
+                    } else {
+                        $("#change").html("<br><label>Change</label><input type='text' name='Change' class='form-control' readonly value=" + change + "> ");
+
+                        setTimeout(payed, 1500)
+                        swal({
+                            title: "success",
+                            text: "payment successfully",
+                            icon: "success"
+                        })
+                    }
+                })
+
+                function payed() {
+                    $("#calculate").submit();
+                }
+            });
+        }
+    });
+</script>
+</body>
+
+</html>

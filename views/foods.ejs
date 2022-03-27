@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include cdn.ejs%>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            .foodimg {
+                width: 200px;
+                height: 200px;
+                border: 2px solid black;
+                box-shadow: 4px 4px;
+            }
+            
+            .foodimg:hover {
+                /* width: 400px;
+                height: 400px;
+                position: fixed;
+                z-index: 1;
+                margin: 1cm; */
+                box-shadow: 4px 4px white;
+            }
+            
+            .fooddata {
+                background-color: rgb(39, 164, 247);
+                padding: 10px;
+                width: 200px;
+                border: 2px solid rgb(17, 16, 16);
+                border-radius: 5px;
+                box-shadow: 4px 4px white;
+            }
+            
+            .fooddata:hover {
+                background-color: white;
+                box-shadow: 4px 4px black;
+                cursor: pointer;
+            }
+            
+            .foodbg {
+                background-color: rgb(94, 55, 236);
+                padding: 2em;
+                border-radius: 5px;
+                box-shadow: 4px 4px;
+                border: 2px solid black;
+            }
+            
+            .foodlist {
+                background-color: white;
+                margin: 1rem;
+                box-shadow: 4px 4px;
+            }
+            
+            .cart:hover {
+                cursor: pointer;
+            }
+            
+            .tableNum {
+                background-color: rgb(38, 172, 38);
+                border: 2px solid black;
+                box-shadow: 4px 4px;
+            }
+            
+            .tableNum>input {
+                text-align: center;
+                color: black;
+            }
+        </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div style="text-align: center;">
+            <h1>Menu</h1>
+            <div class="container tableNum">
+                <br>
+                <label for=""><h4> Table Number : </h4></label>
+                <input type="text" name="" id="tablenum" class="form-control" autofocus readonly value="<%=session.tableNum%>"><br>
+            </div>
+        </div>
+
+        <br><br>
+
+        <div class="container foodbg">
+            <%if(locals.foods){%>
+                <div class="row">
+                    <%for(var i in foods){%>
+                        <div class="col-md-4">
+
+                            <p>
+                                <img class="foodimg" src="/images/foods/<%=foods[i].image%>" alt="">
+                                <div class="fooddata">
+                                    <input type="hidden" name="" id="foodnamelist" value=<%=foods[i].foodName%>>
+                                    <input type="hidden" name="" id="foodpricelist" value=<%=foods[i].foodPrice%>>
+                                    <b>Name :</b>
+
+
+                                    <%=foods[i].foodName%>
+                                        <br> <b> Price : </b>
+                                        <%=foods[i].foodPrice%>
+                                            <br><br>
+                                            <button data-food="<%=foods[i].foodName%>" data-price="<%=foods[i].foodPrice%>" onclick="getvalue(this)" class="btn btn-block btn-warning" style="box-shadow:4px 4px">select</button>
+                                </div>
+                            </p>
+
+                        </div>
+                        <%}}%>
+                            <!-- cart -->
+                            <div class="cart" onclick="getdata()">
+                                <ul id="foodlist" class="foodlist"></ul>
+                            </div>
+                </div>
+        </div> <br>
+        <div class="container">
+            <a class="btn btn-block btn-danger" href="/">Back</a> <br> <br>
+            <p id="demo"></p>
+        </div>
+    </div>
+    <script>
+        var namelist = [];
+        var pricelist = [];
+
+        function getvalue(food) {
+            const name = food.getAttribute("data-food");
+            const price = food.getAttribute("data-price");
+            namelist.push(name);
+            pricelist.push(price);
+            $(document).ready(() => {
+                    $("#foodlist").append("<li style='padding:10px;'>" + name + " : " + price + "</li>")
+                        // $(".cart").click(() => {})
+                })
+                // console.log(name);
+        }
+
+        function getdata() { //ที่ไม่ใช้ jquery เพราะมีปัญหาเรื่องการแปลง array เป็น string และการทำงานของ arrow function ก็แตกต่างกับ function ธรรมดา
+            var newarrName = []
+            var newarrPrice = []
+            const tableNum = document.getElementById("tablenum").value
+            for (i in namelist) { //namelist ถูกประกาศเป็น var ทำให้สามารถใช้ที่ไหนก็ได้
+                newarrName.push(namelist[i])
+                newarrPrice.push(pricelist[i])
+
+            }
+            if (tableNum == "") {
+                // alert("please fill table number");
+                swal({
+                    title: "Warning",
+                    text: "You haven't insert table number",
+                    icon: "warning",
+                    button: "ok"
+                });
+            } else {
+                window.location.href = "/orders/checkorder/" + newarrName + "/" + newarrPrice + "/" + tableNum;
+            }
+            // document.getElementById("demo").innerHTML = newarrName + newarrPrice
+
+        }
+    </script>
+</body>
+
+</html>
+
+</html>

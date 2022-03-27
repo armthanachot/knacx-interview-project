@@ -1,0 +1,11 @@
+{
+    "user": [{
+        "name": "Thanachot",
+        "lname": "Tesjaroen",
+        "graduate": "KKU"
+    }, {
+        "name": "Patchara",
+        "lname": "Mangkorn",
+        "graduate": "KU"
+    }]
+}

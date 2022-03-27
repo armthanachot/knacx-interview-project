@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%include cdn.ejs%>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Registration form</h1>
+        <form action="/api/reg" class="form-group" id="empform" method="POST">
+            <label for="firstName">name</label>
+            <input type="text" name="fname" class="form-control" autofocus>
+            <label for="lastName">lastname</label>
+            <input type="text" name="lname" class="form-control">
+            <label for="email">email</label>
+            <input type="email" name="email" class="form-control">
+            <label for="tel">tel</label>
+            <input type="text" name="tel" class="form-control">
+            <label for="userName">userName</label>
+            <input type="text" name="userName" class="form-control">
+            <label for="password">password</label>
+            <input type="password" name="password" id="password" class="form-control">
+            <label for="confirmPassword">confirmPassword</label>
+            <input type="password" name="confirmpassword" id="confirmpassword" class="form-control"> <br>
+            <button type="button" id="submitbtn" class="submit btn btn-block btn-success">save</button>
+        </form>
+    </div>
+    <script>
+        $(document).ready(() => {
+
+            $("#submitbtn").click((event) => {
+                var password = document.getElementById("password").value;
+                var confirmpassword = document.getElementById("confirmpassword").value;
+
+                if (password != confirmpassword) {
+                    swal({
+                        title: "Warning",
+                        text: "password and confirm must equal",
+                        icon: "warning",
+                        button: "ok"
+                    })
+                } else {
+                    swal({
+                        title: "Success",
+                        text: "Register successfully",
+                        icon: "success",
+                        button: "ok"
+                    })
+                    setTimeout(success, 1000)
+                    console.log("success")
+                }
+            })
+
+            function success() {
+                $("#empform").submit()
+            }
+
+        })
+    </script>
+</body>
+
+</html>

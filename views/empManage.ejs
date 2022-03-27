@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%include cdn.ejs%>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            .inputEmail,
+            .showData {
+                border: 5px solid white;
+                box-shadow: 5px 5px rgb(51, 51, 51);
+                border-radius: 10px;
+                background-color: rgb(255, 255, 255);
+                text-align: center;
+            }
+            
+            .form-group {
+                margin: 2rem;
+                text-align: left;
+            }
+            
+            table,
+            td,
+            th {
+                border: 2px solid black;
+                text-align: center;
+            }
+            
+            th {
+                background-color: yellow;
+            }
+            
+            table {
+                margin: 0 auto;
+            }
+        </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="inputEmail">
+            <h1>Get employee</h1>
+            <form action="/api/empData" class="form-group" method="POST">
+                <label for="email">email</label>
+                <input type="email" name="email" id="email" class="form-control" required><br>
+                <button type="submit" class="btn btn-block btn-info">ok</button>
+            </form>
+        </div>
+        <hr>
+        <br><br>
+        <%if(locals.empData){%>
+            <div class="showData">
+                <h1>Edit Data</h1>
+                <form action="/api/dataUpdate" method="POST" class="form-group" id="updated">
+                    <input type="hidden" name="email" id="email" value="<%=empData.email%>" readonly>
+                    <label for="fname">firstname</label>
+                    <input type="text" name="fname" id="fname" value="<%=empData.fname%>" class="form-control">
+                    <label for="lname">lastname</label>
+                    <input type="text" name="lname" id="lname" value="<%=empData.lname%>" class="form-control">
+                    <label for="tel">tel</label>
+                    <input type="text" name="tel" id="tel" value="<%=empData.tel%>" class="form-control"> <br>
+                    <button type="button" class="updatebtn btn btn-block btn-warning">update</button>
+                </form>
+            </div>
+            <%}%>
+                <%if(locals.allEmpData){%>
+
+                    <table>
+                        <tr>
+                            <th>firstname</th>
+                            <th>lastname</th>
+                            <th>tel</th>
+                            <th>email</th>
+                            <th>delete</th>
+                        </tr>
+
+                        <%for(var i in allEmpData){%>
+                            <tr>
+                                <td>
+                                    <%=allEmpData[i].fname%>
+                                </td>
+                                <td>
+                                    <%=allEmpData[i].lname%>
+                                </td>
+                                <td>
+                                    <%=allEmpData[i].tel%>
+                                </td>
+                                <td>
+                                    <%=allEmpData[i].email%>
+                                </td>
+                                <td>
+                                    <a href="/api/deleteData/<%=allEmpData[i]._id%>" class="btn btn-danger" style="margin:10px" e>delete</a>
+                                </td>
+
+                            </tr>
+
+                            <%}%>
+                    </table>
+                    <%}%>
+                        <br><br>
+                        <a href="/empReg" class="btn btn-block btn-danger">Back</a>
+    </div>
+
+    <script>
+        $(document).ready(() => {
+            $(".updatebtn").click(() => {
+                swal({
+                    title: "success",
+                    text: "update success",
+                    icon: "success"
+                })
+                setTimeout(updated, 1000)
+            })
+
+            function updated() {
+                $("#updated").submit();
+            }
+        })
+    </script>
+</body>
+
+</html>

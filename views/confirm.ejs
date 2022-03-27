@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%include cdn.ejs%>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            .confirm-section {
+                background-color: rgb(133, 204, 133);
+                padding: 10px;
+                border: 2px solid black;
+                box-shadow: 4px 4px black;
+            }
+            
+            #listoffood {
+                line-height: 3em;
+            }
+            
+            hr {
+                background-color: rgb(255, 255, 255);
+                height: 2px;
+            }
+            
+            #table {
+                text-align: center;
+                background-color: #fff;
+                border-radius: 3px;
+                padding: 5px;
+                border: 1px solid black;
+            }
+            
+            .remove {
+                box-shadow: 2px 2px black;
+            }
+            
+            li {
+                font-size: 0.5cm;
+            }
+        </style>
+</head>
+
+
+<body>
+    <h1 style="text-align: center;">confirm order</h1>
+
+    <%if(locals.tableNum && locals.namelist && locals.pricelist){%>
+        <div class="container confirm-section">
+            <h3 style="display: none;" id="tableNum">
+                <%=locals.tableNum%>
+            </h3>
+            <h3>Table :
+                <%=locals.tableNum%>
+            </h3>
+            <p id="namefood">
+                <%=locals.namelist%>
+
+                    <p class="cartform">
+                        <ul id="listoffood"></ul>
+                    </p>
+                    <p id="pricefood" style="display: none;">
+                        <%=locals.pricelist%>
+                    </p>
+            </p>
+            <%}%>
+
+        </div><br>
+        <div class="container">
+            <button onclick="confirm()" class="btn btn-block btn-success" style="box-shadow: 4px 4px black;">confirm</button>
+        </div>
+        <script>
+            var namelist = document.getElementById("namefood").innerHTML;
+            var namelistarr = namelist.split(",");
+            var pricelist = document.getElementById("pricefood").innerHTML;
+            var pricelistarr = pricelist.split(",");
+            const table = document.getElementById("tableNum").innerHTML;
+
+            // var listoffood = document.getElementById("listoffood");
+
+
+            $(document).ready(() => {
+                    $("#namefood").hide();
+                    for (var i in namelistarr) {
+                        console.log(namelistarr[i].trim());
+                        $('#listoffood').append("<li id=li" + i +
+                            ">" + namelistarr[i] + " : " + pricelistarr[i] + "</li>" + "<button id=btn" + i + " class='remove btn btn-danger' id-food=" + i + " onclick='remove(this)'> " + "remove " + " </button><hr>");
+
+                    }
+
+                })
+                // หลังจาก click ส่ง this มา ซึ่งจะถูกเก็บใน food เราก็เข้าถึง content ของส่วนนั้นได้โดยผ่าน food ซึ่งก็คือรายละเอียดในปุ่ม
+                //ทำการดึง id ของเนื้อหามา โดยกำหนดไว้ผ่าน id-food
+                //ทำการ pop array ออก ตาม index อ้างอิงผ่าน id_food
+                //และทำการใช้ string pattern ในการ remove element ออกด่้วย jquery
+            function remove(food) {
+                const id_food = food.getAttribute("id-food");
+                namelistarr.pop(id_food);
+                pricelistarr.pop(id_food);
+                $(document).ready(() => {
+                    $("#li" + id_food).remove();
+                    $("#btn" + id_food).remove();
+                })
+                for (var i in namelistarr) {
+                    console.log(namelistarr[i].trim());
+                    console.log(pricelistarr[i].trim());
+                }
+
+            }
+
+            function confirm() {
+                swal({
+                    icon: "success",
+                    text: "confirm order"
+                });
+                setTimeout(redirect, 1000)
+
+            }
+
+            function redirect() {
+                window.location.href = "/orders/" + namelistarr + "/" + pricelistarr + "/" + table.trim();
+            }
+        </script>
+</body>
+
+</html>

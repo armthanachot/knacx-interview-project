@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%include cdn.ejs%>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            .form-login {
+                margin: 2rem;
+            }
+            
+            .login-container {
+                margin-top: 25%;
+                border: 2px solid black;
+                border-radius: 5px;
+                box-shadow: 3px 3px black;
+            }
+        </style>
+</head>
+
+<body>
+    <div class="container login-container">
+        <form action="/api/checklogin" method="POST" class="form-group form-login">
+            <label for="">Username or Email: </label>
+            <input type="text" name="username_email" id="username_email" class="form-control"><br>
+            <label for="">Password : </label>
+            <input type="password" name="password" id="password" class="form-control"><br>
+            <button type="submit" class="btn btn-block btn-success">Login</button>
+
+        </form>
+        <%if(locals.errMessage){%>
+            <p class="alert alert-danger" style="border: 2px solid red;">
+                <%=locals.errMessage%>
+            </p>
+            <%}%>
+                <a href="/empReg">don't have data </a>
+    </div><br><br>
+    <div class="container">
+        <input type="text" id="fname" class="form-control"><br>
+        <button id="ajax" class="btn btn-block btn-info">ajax</button>
+    </div>
+    <script>
+        $(document).ready(() => {
+            $("#ajax").click((event) => {
+                var name = document.getElementById("fname").value;
+                $.ajax({
+                    url: "/testajax",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        fname: name,
+                        lname: "Tesjaroen"
+                    },
+                    success: (data) => {
+                        console.log(data);
+                    }
+                })
+            })
+
+        })
+    </script>
+</body>
+
+</html>
